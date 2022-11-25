@@ -18,7 +18,8 @@ class IndexController {
     try {
       const timetableData: GetTimetableDto = req.body;
 
-      const getWorkhourData: number = await this.workhourService.findAllWorkhours;
+      const findData = { start_day_identifier: timetableData.start_day_identifier, days: timetableData.days };
+      const getWorkhourData: Workhour[] = await this.workhourService.findWorkhourByDate(findData);
 
       res.status(201).json({ data: getWorkhourData, message: 'getData' });
     } catch (error) {
