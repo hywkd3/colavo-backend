@@ -3,7 +3,7 @@ import { findDateDto } from '@dtos/workhours.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Workhour } from '@interfaces/workhours.interface';
 import workhourModel from '@models/workhours.model';
-import { getDayNumber, getNumberAry } from '@utils/util';
+import { getDayNumber, getWeekAry, getDayUnix } from '@utils/util';
 
 class WorkhourService {
   public workhours = workhourModel;
@@ -14,13 +14,18 @@ class WorkhourService {
   }
 
   public async findWorkhourByDate(findData: findDateDto): Promise<Workhour[]> {
-    const startDayNumber = getDayNumber(findData.start_day_identifier);
-    const weekNumberAry = getNumberAry(startDayNumber, findData.days);
+    const weekAry = getWeekAry(findData.start_day_identifier, findData.days);
 
-    const findWorkhours: Workhour[] = this.workhours.filter(workhour => weekNumberAry.includes(workhour.weekday));
+    const weekNumAry = weekAry.map(i => i.weekday);
+    const findWorkhours = this.workhours.filter(workhour => weekNumAry.includes(workhour.weekday));
     if (!findWorkhours) throw new HttpException(409, "workhours doesn't exist");
 
-    return findWorkhours;
+    const result = weekAry.map(item => {
+      const a = findWorkhours.find(workhour => item.weekday === workhour.weekday);
+      return { ...item, ...a };
+    });
+
+    return result;
   }
 }
 

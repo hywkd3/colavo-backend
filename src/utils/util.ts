@@ -25,18 +25,27 @@ export const getDateString = (value: string): string => {
   return `${year}-${month}-${day}`;
 };
 
+export const getDayUnix = (start_date: string): number => {
+  const unix = (new Date(start_date).getTime() / 1000).toString();
+  return parseInt(unix);
+};
+
 export const getDayNumber = (start_date: string): number => {
-  const valStr = getDateString(start_date);
-  const date = new Date(valStr);
+  const date = new Date(start_date);
   return date.getDay();
 };
 
-export const getNumberAry = (start: number, count: number, max = 8, min = 1): Array => {
-  const ary = [];
+export const getWeekAry = (start_date: string, count: number, max = 8, min = 1): Array => {
+  const valStr = getDateString(start_date);
+  const startDate = new Date(valStr);
+  const start = getDayNumber(valStr);
 
+  const ary = [];
   for (let i = 0; i < count; i++) {
     const num = start + i < max && start + i >= min ? start + i : start + i + min - max;
-    ary.push(num);
+    const iDate = new Date(startDate.setDate(startDate.getDate() + i));
+    const unixNum = (iDate.getTime() / 1000) * 1;
+    ary.push({ weekday: num, day_modifier: i, start_of_day: unixNum });
   }
 
   return ary;
