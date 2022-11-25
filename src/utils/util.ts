@@ -31,7 +31,7 @@ export const getDayNumber = (start_date: string): number => {
   return date.getDay();
 };
 
-export const getNumberAry = (start: number, count: number, max = 7, min = 0): Array => {
+export const getNumberAry = (start: number, count: number, max = 8, min = 1): Array => {
   const ary = [];
 
   for (let i = 0; i < count; i++) {
