@@ -1,0 +1,17 @@
+# baseURL
+@baseURL = http://localhost:3000
+
+###
+# Find getTimeSlots
+POST {{ baseURL }}/getTimeSlots
+Content-Type: application/json
+
+{
+	"start_day_identifier" : "20210910",
+	"days": 3,
+	"service_duration": 3600,
+	"timeslot_interval": 1800,
+	"is_ignore_schedule": true,
+	"is_ignore_workhour": false,
+	"timezone_identifier": "Asia/Seoul"
+}
