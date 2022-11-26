@@ -49,6 +49,27 @@ class EventService {
     return events;
   }
 
+  public getTimeSlots = (timeslots: Timeslot[], service_duration: number, timeslot_interval: number): Timeslot[] => {
+    const ary = [];
+
+    timeslots.forEach(item => {
+      const begin = item.begin_at;
+      const end = item.end_at;
+      let tmp_begin = begin;
+      while (tmp_begin < end) {
+        const service_end = tmp_begin + service_duration;
+        const timeslot_end = tmp_begin + timeslot_interval;
+        if (service_end <= end && timeslot_end <= end) {
+          ary.push({ begin_at: tmp_begin, end_at: service_end });
+          tmp_begin = timeslot_end;
+        } else {
+          break;
+        }
+      }
+    });
+
+    return ary;
+  };
 }
 
 export default EventService;

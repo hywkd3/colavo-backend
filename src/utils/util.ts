@@ -30,18 +30,13 @@ export const getDayUnix = (start_date: string): number => {
   return parseInt(unix);
 };
 
-export const getDayNumber = (start_date: string): number => {
-  const date = new Date(start_date);
-  return date.getDay();
-};
-
 export const getWeekAry = (start_date: Date, count: number, max = 8, min = 1): Array => {
   const start = start_date.getDay();
 
   const ary = [];
   for (let i = 0; i < count; i++) {
     const num = start + i < max && start + i >= min ? start + i : start + i + min - max;
-    const iDate = new Date(startDate.setDate(startDate.getDate() + i));
+    const iDate = new Date(start_date.setDate(start_date.getDate() + i));
     const unixNum = (iDate.getTime() / 1000) * 1;
     ary.push({ weekday: num, day_modifier: i, start_of_day: unixNum });
   }

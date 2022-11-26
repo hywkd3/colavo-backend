@@ -3,7 +3,7 @@ import { findDateDto } from '@dtos/workhours.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Workhour, WorkDay } from '@interfaces/workhours.interface';
 import workhourModel from '@models/workhours.model';
-import { getWeekAry, getDayUnix } from '@utils/util';
+import { getWeekAry } from '@utils/util';
 
 class WorkhourService {
   public workhours = workhourModel;

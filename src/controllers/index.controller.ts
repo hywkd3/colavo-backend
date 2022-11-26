@@ -64,8 +64,21 @@ class IndexController {
           // 기존 이벤트 제외 시간
           timeslots = await this.eventService.exceptEventTime(events, start, end);
         }
+
+        timeslots = await this.eventService.getTimeSlots(timeslots, timetableData.service_duration, timetableData.timeslot_interval);
+
+        getWorkhourData[i].timeslots = timeslots;
       }
-      res.status(201).json({ data: getWorkhourData, message: 'getData' });
+      const DayTimetable = getWorkhourData.map(i => {
+        const obj = {
+          start_of_day: i.start_of_day,
+          day_modifier: i.day_modifier,
+          is_day_off: i.is_day_off,
+          timeslots: i.timeslots,
+        };
+        return obj;
+      });
+      res.status(201).json({ data: DayTimetable, message: 'getData' });
     } catch (error) {
       next(error);
     }
