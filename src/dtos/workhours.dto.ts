@@ -1,9 +1,12 @@
-import { IsInt, IsString } from 'class-validator';
+import { IsInt, IsDate, IsBoolean } from 'class-validator';
 
 export class findDateDto {
-  @IsString()
-  public start_day_identifier: string;
+  @IsDate()
+  public start_date: Date;
 
   @IsInt()
   public days: number;
+
+  @IsBoolean()
+  public is_ignore_workhour: boolean;
 }
