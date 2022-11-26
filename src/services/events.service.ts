@@ -18,6 +18,37 @@ class EventService {
     return findEvents;
   }
 
+  public exceptEventTime(events: Timeslot[], start: number, end: number): Event[] {
+    const eventData = this.validEvents(events);
+    const ary = [];
+    let tmpStart = start;
+    eventData.map(item => {
+      if (item.begin_at === item.end_at) {
+      } else if (item.begin_at >= tmpStart && item.end_at <= end) {
+        ary.push({ begin_at: tmpStart, end_at: item.begin_at });
+        tmpStart = item.end_at;
+      }
+    });
+
+    if (tmpStart <= end) {
+      ary.push({ begin_at: tmpStart, end_at: end });
+    }
+
+    return ary;
+  }
+
+  public validEvents(events: Event[]): Event[] {
+    events.forEach((item, idx, ary) => {
+      if (item.begin_at > item.end_at) {
+        const tmp = item.begin_at;
+        ary[idx].begin_at = item.end_at;
+        ary[idx].end_at = tmp;
+      }
+    });
+
+    return events;
+  }
+
 }
 
 export default EventService;

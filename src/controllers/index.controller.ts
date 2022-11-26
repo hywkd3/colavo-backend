@@ -42,6 +42,28 @@ class IndexController {
         const data = getWorkhourData[i];
         const events = await this.eventService.findEventByDate(data.start_of_day, data.open_interval, data.close_interval);
 
+        // 시간 범위 설정
+        let start = 0;
+        let end = 0;
+
+        if (timetableData.is_ignore_workhour) {
+          // 하루 전체를 기간으로 설정
+          start = data.start_of_day;
+          end = getTomorrow(data.start_of_day, 1);
+        } else {
+          // 영업시간으로 설정
+          start = data.start_of_day + data.open_interval;
+          end = data.start_of_day + data.close_interval;
+        }
+
+        let timeslots: Timeslot[];
+        if (timetableData.is_ignore_schedule) {
+          // 기존 이벤트 무시
+          timeslots = [{ begin_at: start, end_at: end }];
+        } else {
+          // 기존 이벤트 제외 시간
+          timeslots = await this.eventService.exceptEventTime(events, start, end);
+        }
       }
       res.status(201).json({ data: getWorkhourData, message: 'getData' });
     } catch (error) {
