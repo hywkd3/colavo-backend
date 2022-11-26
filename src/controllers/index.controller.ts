@@ -4,10 +4,12 @@ import { findDateDto } from '@dtos/workhours.dto';
 import { WorkDay } from '@/interfaces/workhours.interface';
 import { DayTimetable, Timeslot } from '@/interfaces/timeslot.interface';
 import workhourService from '@services/workhours.service';
+import eventService from '@services/events.service';
 import { getDateString, getTomorrow, changeTimezone } from '@utils/util';
 
 class IndexController {
   public workhourService = new workhourService();
+  public eventService = new eventService();
 
   public index = (req: Request, res: Response, next: NextFunction): void => {
     try {
@@ -34,6 +36,13 @@ class IndexController {
       const findData: findDateDto = { start_date: startDate, days: timetableData.days, is_ignore_workhour: timetableData.is_ignore_workhour };
       // 운영시간 정보 객체 가져오기
       const getWorkhourData: WorkDay[] = await this.workhourService.findWorkhourByDate(findData);
+
+      // Timeslot 생성
+      for (let i = 0; i < getWorkhourData.length; i++) {
+        const data = getWorkhourData[i];
+        const events = await this.eventService.findEventByDate(data.start_of_day, data.open_interval, data.close_interval);
+
+      }
       res.status(201).json({ data: getWorkhourData, message: 'getData' });
     } catch (error) {
       next(error);

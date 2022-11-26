@@ -35,10 +35,8 @@ export const getDayNumber = (start_date: string): number => {
   return date.getDay();
 };
 
-export const getWeekAry = (start_date: string, count: number, max = 8, min = 1): Array => {
-  const valStr = getDateString(start_date);
-  const startDate = new Date(valStr);
-  const start = getDayNumber(valStr);
+export const getWeekAry = (start_date: Date, count: number, max = 8, min = 1): Array => {
+  const start = start_date.getDay();
 
   const ary = [];
   for (let i = 0; i < count; i++) {
