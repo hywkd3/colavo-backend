@@ -1,4 +1,3 @@
-import { hash } from 'bcrypt';
 import { findDateDto } from '@dtos/workhours.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Workhour, WorkDay } from '@interfaces/workhours.interface';

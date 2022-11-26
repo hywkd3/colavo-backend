@@ -1,10 +1,8 @@
 import { hash } from 'bcrypt';
-import { CreateUserDto } from '@dtos/users.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Event } from '@interfaces/events.interface';
 import { Timeslot } from '@/interfaces/timeslot.interface';
 import eventModel from '@models/events.model';
-import { isEmpty } from '@utils/util';
 
 class EventService {
   public events = eventModel;
