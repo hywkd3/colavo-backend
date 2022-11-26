@@ -1,9 +1,9 @@
 import { hash } from 'bcrypt';
 import { findDateDto } from '@dtos/workhours.dto';
 import { HttpException } from '@exceptions/HttpException';
-import { Workhour } from '@interfaces/workhours.interface';
+import { Workhour, WorkDay } from '@interfaces/workhours.interface';
 import workhourModel from '@models/workhours.model';
-import { getDayNumber, getWeekAry, getDayUnix } from '@utils/util';
+import { getWeekAry, getDayUnix } from '@utils/util';
 
 class WorkhourService {
   public workhours = workhourModel;
@@ -13,11 +13,13 @@ class WorkhourService {
     return workhours;
   }
 
-  public async findWorkhourByDate(findData: findDateDto): Promise<Workhour[]> {
-    const weekAry = getWeekAry(findData.start_day_identifier, findData.days);
+  public async findWorkhourByDate(findData: findDateDto): Promise<WorkDay[]> {
+    const weekAry = getWeekAry(findData.start_date, findData.days);
 
     const weekNumAry = weekAry.map(i => i.weekday);
-    const findWorkhours = this.workhours.filter(workhour => weekNumAry.includes(workhour.weekday));
+    const findWorkhours = this.workhours.filter(
+      workhour => weekNumAry.includes(workhour.weekday) && (findData.is_ignore_workhour ? true : !workhour.is_day_off),
+    );
     if (!findWorkhours) throw new HttpException(409, "workhours doesn't exist");
 
     const result = weekAry.map(item => {

@@ -50,3 +50,23 @@ export const getWeekAry = (start_date: string, count: number, max = 8, min = 1):
 
   return ary;
 };
+
+export const changeTimezone = (date: Date, ianatz: string): Date => {
+  const invdate = new Date(
+    date.toLocaleString('en-US', {
+      timeZone: ianatz,
+    }),
+  );
+  const diff = date.getTime() - invdate.getTime();
+
+  return new Date(date.getTime() - diff); // needs to substract
+};
+
+export const getTomorrow = (date_unix_num: number, days: number): number => {
+  const date = new Date(date_unix_num * 1000);
+
+  const iDate = new Date(date.setDate(date.getDate() + days));
+  const unixNum = (iDate.getTime() / 1000) * 1;
+
+  return unixNum;
+};
