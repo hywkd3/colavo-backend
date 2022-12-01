@@ -31,12 +31,13 @@ export const getDayUnix = (start_date: string): number => {
 };
 
 export const getWeekAry = (start_date: Date, count: number, max = 8, min = 1): Array => {
-  const start = start_date.getDay();
+  const start = start_date.getDay() + 1;
 
   const ary = [];
   for (let i = 0; i < count; i++) {
+    const tmpDate = new Date(start_date.getTime());
     const num = start + i < max && start + i >= min ? start + i : start + i + min - max;
-    const iDate = new Date(start_date.setDate(start_date.getDate() + i));
+    const iDate = new Date(tmpDate.setDate(tmpDate.getDate() + i));
     const unixNum = (iDate.getTime() / 1000) * 1;
     ary.push({ weekday: num, day_modifier: i, start_of_day: unixNum });
   }
