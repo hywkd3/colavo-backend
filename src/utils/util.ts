@@ -50,9 +50,10 @@ export const changeTimezone = (date: Date, ianatz: string): Date => {
       timeZone: ianatz,
     }),
   );
+  const curTZ = date.getTimezoneOffset() * 60 * 1000;
   const diff = date.getTime() - invdate.getTime();
 
-  return new Date(date.getTime() - diff); // needs to substract
+  return new Date(date.getTime() - diff + curTZ); // needs to substract
 };
 
 export const getTomorrow = (date_unix_num: number, days: number): number => {
