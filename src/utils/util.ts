@@ -48,13 +48,13 @@ export const changeTimezone = (date: Date, ianatz: string): Date => {
   const curTZ = date.getTimezoneOffset() * 60 * 1000;
   const tzDate = new Date(date.getTime() + curTZ);
   const invdate = new Date(
-    tzDate.toLocaleString('en-US', {
+    date.toLocaleString('en-US', {
       timeZone: ianatz,
     }),
   );
-  const diff = date.getTime() - invdate.getTime();
+  const diff = tzDate.getTime() - invdate.getTime();
 
-  return new Date(date.getTime() - diff); // needs to substract
+  return new Date(date.getTime() + diff); // needs to substract
 };
 
 export const getTomorrow = (date_unix_num: number, days: number): number => {
