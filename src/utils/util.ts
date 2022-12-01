@@ -45,15 +45,16 @@ export const getWeekAry = (start_date: Date, count: number, max = 8, min = 1): A
 };
 
 export const changeTimezone = (date: Date, ianatz: string): Date => {
+  const curTZ = date.getTimezoneOffset() * 60 * 1000;
+  const tzDate = new Date(date.getTime() + curTZ);
   const invdate = new Date(
-    date.toLocaleString('en-US', {
+    tzDate.toLocaleString('en-US', {
       timeZone: ianatz,
     }),
   );
-  const curTZ = date.getTimezoneOffset() * 60 * 1000;
   const diff = date.getTime() - invdate.getTime();
 
-  return new Date(date.getTime() - diff + curTZ); // needs to substract
+  return new Date(date.getTime() - diff); // needs to substract
 };
 
 export const getTomorrow = (date_unix_num: number, days: number): number => {
