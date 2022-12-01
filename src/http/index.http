@@ -1,17 +1,69 @@
 # baseURL
 @baseURL = http://localhost:3000
 
-###
-# Find getTimeSlots
+# Find getTimeSlots =============================================
+
+## TESTCASE 1
 POST {{ baseURL }}/getTimeSlots
 Content-Type: application/json
 
 {
 	"start_day_identifier" : "20210910",
-	"days": 3,
+	"days": 1,
 	"service_duration": 3600,
 	"timeslot_interval": 1800,
 	"is_ignore_schedule": true,
 	"is_ignore_workhour": false,
 	"timezone_identifier": "Asia/Seoul"
 }
+###
+
+## TESTCASE 2
+POST {{ baseURL }}/getTimeSlots
+Content-Type: application/json
+
+{
+	"start_day_identifier" : "20210506",
+	"days": 1,
+	"service_duration": 3600,
+	"timeslot_interval": 1800,
+	"is_ignore_schedule": true,
+	"is_ignore_workhour": false,
+	"timezone_identifier": "America/New_York"
+}
+###
+
+## TESTCASE 3
+POST {{ baseURL }}/getTimeSlots
+Content-Type: application/json
+
+{
+	"start_day_identifier" : "20210506",
+	"days": 3,
+	"service_duration": 3600,
+	"timeslot_interval": 1800,
+	"is_ignore_schedule": false,
+	"is_ignore_workhour": false,
+	"timezone_identifier": "America/New_York"
+}
+###
+
+## TESTCASE 4
+POST {{ baseURL }}/getTimeSlots
+Content-Type: application/json
+
+{
+	"start_day_identifier" : "20210506",
+	"days": 3,
+	"service_duration": 3600,
+	"timeslot_interval": 1800,
+	"is_ignore_schedule": false,
+	"is_ignore_workhour": false,
+	"timezone_identifier": "Asia/Seoul"
+}
+###
+
+
+
+# /Find getTimeSlots =============================================
+
