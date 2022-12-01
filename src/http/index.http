@@ -39,7 +39,7 @@ Content-Type: application/json
 
 {
 	"start_day_identifier" : "20210506",
-	"days": 3,
+	"days": 2,
 	"service_duration": 3600,
 	"timeslot_interval": 1800,
 	"is_ignore_schedule": false,
